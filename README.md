@@ -1,5 +1,7 @@
 # Commodore 64 hardware test tools
 
+This repository was forked from https://github.com/jamarju/c64_test_tools
+
 ![](img/PLA-arduino.JPG)
 
 I wrote these programs to test the RAM, ROM and PLA chips with an Arduino Uno because I don't own a second known-working C64 to test them on.
@@ -46,6 +48,52 @@ LED test RCB| [ ]A3                         INT0/2[ ] | D2 --- RAM A2, pin 6
 ```
 - LED (pin 13) off: TEST **PASS**
 - LED (pin 13) on: TEST **FAIL** (will turn back off at the end of the test cycle, so PAY ATTENTION)
+- LED port A0 -> write 0 failed
+- LED port A1 -> write 1 failed
+- LED port A2 -> checkerboard failed
+- LED port A3 -> inverse checkerboard failed
+
+## Summary of [256K x 1 bit RAM test](4256_test)
+
+Test for 256K x 1 bit chips as used in the 1750, 1764 REU.
+TMS 4256-10 and similar.
+
+```
+                                           +-----+
+            +----[PWR]---------------------| USB |----+
+            |                              +-----+    |
+            |           GND/RST2  [ ][ ]              |
+            |         MOSI2/SCK2  [ ][ ]    A5/SCL[ ] |
+            |            5V/MISO2 [ ][ ]    A4/SDA[ ] |
+            |                                 AREF[ ] |
+            |                                  GND[ ] |    --- RAM GND, pin 16
+            | [ ]N/C           4256         SCK/13[ ] | B5 (LED)
+            | [ ]IOREF      +---U---+      MISO/12[ ] | B4 --- RAM DIN (D), pin 2
+            | [ ]RST      A8|1    16|GND   MOSI/11[ ]~| B3 --- RAM /WE, pin 3
+            | [ ]3V3       D|2    15|/CAS       10[ ]~| B2 --- RAM /RAS, pin 4
+RAM VCC --- | [ ]5v      /WE|3    14|Q           9[ ]~| B1 --- RAM /CAS, pin 15
+pin 8       | [ ]GND    /RAS|4    13|A6          8[ ] | B0 --- RAM DOUT (Q), pin 14
+            | [ ]GND      A0|5    12|A3               |
+            | [ ]Vin      A2|6    11|A4          7[ ] | D7 --- RAM A7, pin 9
+            |             A1|7    10|A5          6[ ] | D6 --- RAM A6, pin 13
+LED test 0  | [ ]A0   5V,VCC|8     9|A7          5[ ] | D5 --- RAM A5, pin 10
+LED test 1  | [ ]A1         +-------+            4[ ] | D4 --- RAM A4, pin 11
+LED test CB | [ ]A2                         INT1/3[ ] | D3 --- RAM A3, pin 12
+LED test RCB| [ ]A3                         INT0/2[ ] | D2 --- RAM A2, pin 6
+            | [ ]A4/SDA     RST SCK MISO      TX>1[ ] | D1 --- RAM A1, pin 7
+RAM A8,pin 1| [ ]A5/SCL     [ ] [ ] [ ]       RX<0[ ] | D0 --- RAM A0, pin 5
+            |               [ ] [ ] [ ]               |
+            |  UNO_R3       GND MOSI 5V _____________/
+            \__________________________/
+```
+- LED (pin 13) off: TEST **PASS**
+- LED (pin 13) on: TEST **FAIL** (will turn back off at the end of the test cycle, so PAY ATTENTION)
+- LED port A0 -> write 0 failed
+- LED port A1 -> write 1 failed
+- LED port A2 -> checkerboard failed
+- LED port A3 -> inverse checkerboard failed
+
+![](img/4256_test.jpg)
 
 ## Summary of [64K x 4 bit RAM test (Arduino MEGA)](c64_dram_test_mega2560)
 
