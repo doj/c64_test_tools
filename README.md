@@ -12,7 +12,7 @@ Check the chips for electrical consistence **before** wiring, ie: inputs are not
 
 See test details on each sketch's heading comments.
 
-## Summary of [64K x 1 bit RAM test](c64_dram_test/4116_test.ino)
+## Summary of [64K x 1 bit RAM test](4116_test)
 
 Test for the 64K x 1 bit chips on long board breadbin C64s and older C64Cs (there are eight of these chips for a total 64 x 8 Kbit).
 
