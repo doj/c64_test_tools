@@ -12,37 +12,37 @@ Check the chips for electrical consistence **before** wiring, ie: inputs are not
 
 See test details on each sketch's heading comments.
 
-## Summary of [64K x 1 bit RAM test](c64_dram_test)
+## Summary of [64K x 1 bit RAM test](c64_dram_test/4116_test.ino)
 
 Test for the 64K x 1 bit chips on long board breadbin C64s and older C64Cs (there are eight of these chips for a total 64 x 8 Kbit).
 
 ```
-                                               +-----+
-                  +----[PWR]-------------------| USB |--+
-                  |                            +-----+  |
-                  |         GND/RST2  [ ][ ]            |
-                  |       MOSI2/SCK2  [ ][ ]  A5/SCL[ ] |   C5 
-                  |          5V/MISO2 [ ][ ]  A4/SDA[ ] |   C4 
-                  |                             AREF[ ] |
-                  |                              GND[ ] |
-                  | [ ]N/C                    SCK/13[ ] |   B5
-                  | [ ]IOREF                 MISO/12[ ] |   B4 --- DRAM DIN
-                  | [ ]RST                   MOSI/11[ ]~|   B3 --- DRAM /WE
-                  | [ ]3V3    +---+               10[ ]~|   B2 --- DRAM /RAS
-                  | [ ]5v    -| A |-               9[ ]~|   B1 --- DRAM /CAS
-                  | [ ]GND   -| R |-               8[ ] |   B0 --- RAM DOUT
-                  | [ ]GND   -| D |-                    |
-                  | [ ]Vin   -| U |-               7[ ] |   D7 --- RAM A7
-                  |          -| I |-               6[ ]~|   .
-              C0  | [ ]A0    -| N |-               5[ ]~|   .
-              C1  | [ ]A1    -| O |-               4[ ] |   .
-              C2  | [ ]A2     +---+           INT1/3[ ]~|   .
-              C3  | [ ]A3                     INT0/2[ ] |   .
-              C4  | [ ]A4/SDA  RST SCK MISO     TX>1[ ] |   .
-              C5  | [ ]A5/SCL  [ ] [ ] [ ]      RX<0[ ] |   D0 --- RAM A0
-                  |            [ ] [ ] [ ]              |
-                  |  UNO_R3    GND MOSI 5V  ____________/
-                  \_______________________/
+                                           +-----+
+            +----[PWR]---------------------| USB |----+
+            |                              +-----+    |
+            |           GND/RST2  [ ][ ]              |
+            |         MOSI2/SCK2  [ ][ ]    A5/SCL[ ] |
+            |            5V/MISO2 [ ][ ]    A4/SDA[ ] |
+            |                                 AREF[ ] |
+            |                                  GND[ ] |    --- RAM GND, pin 16
+            | [ ]N/C        4116/4864       SCK/13[ ] | B5 (LED)
+            | [ ]IOREF      +---U---+      MISO/12[ ] | B4 --- RAM DIN (D), pin 2
+            | [ ]RST     n/c|1    16|GND   MOSI/11[ ]~| B3 --- RAM /WE, pin 3
+            | [ ]3V3       D|2    15|/CAS       10[ ]~| B2 --- RAM /RAS, pin 4
+RAM VCC --- | [ ]5v      /WE|3    14|Q           9[ ]~| B1 --- RAM /CAS, pin 15
+pin 8       | [ ]GND    /RAS|4    13|A6          8[ ] | B0 --- RAM DOUT (Q), pin 14
+            | [ ]GND      A0|5    12|A3               |
+            | [ ]Vin      A2|6    11|A4          7[ ] | D7 --- RAM A7, pin 9
+            |             A1|7    10|A5          6[ ] | D6 --- RAM A6, pin 13
+LED test 0  | [ ]A0   5V,VCC|8     9|A7          5[ ] | D5 --- RAM A5, pin 10
+LED test 1  | [ ]A1         +-------+            4[ ] | D4 --- RAM A4, pin 11
+LED test CB | [ ]A2                         INT1/3[ ] | D3 --- RAM A3, pin 12
+LED test RCB| [ ]A3                         INT0/2[ ] | D2 --- RAM A2, pin 6
+            | [ ]A4/SDA     RST SCK MISO      TX>1[ ] | D1 --- RAM A1, pin 7
+            | [ ]A5/SCL     [ ] [ ] [ ]       RX<0[ ] | D0 --- RAM A0, pin 5
+            |               [ ] [ ] [ ]               |
+            |  UNO_R3       GND MOSI 5V _____________/
+            \__________________________/
 ```
 - LED (pin 13) off: TEST **PASS**
 - LED (pin 13) on: TEST **FAIL** (will turn back off at the end of the test cycle, so PAY ATTENTION)
@@ -57,11 +57,11 @@ Also works with a real Arduino Mega, just pay attention to the different pin lay
 
 ```
                    +---------------
-                   | VIN[ ][ ]VIN  \                  
-                   | GND[ ][ ]GND  /                  
-                   |  5V[ ][ ]5V   \                  
-                   | 3V3[ ][ ]3V3  /                  
-                   | RST[ ][ ]AREF \                  
+                   | VIN[ ][ ]VIN  \
+                   | GND[ ][ ]GND  /
+                   |  5V[ ][ ]5V   \
+                   | 3V3[ ][ ]3V3  /
+                   | RST[ ][ ]AREF \
                E1  |  TX[ ][ ]RX   /  E0
                E5  |  D3[ ][ ]D2   \  E4
                E3  |  D5[ ][ ]D4   /  G5
@@ -70,9 +70,9 @@ Also works with a real Arduino Mega, just pay attention to the different pin lay
                B5  | D11[ ][ ]D10  \  B4
                B7  | D13[ ][ ]D12  /  B6
                J0  | D15[ ][ ]D14  \  J1
-               H0  | D17[ ][ ]D16  /  H1              
-               D2  | D19[ ][ ]D18  \  D3              
-               D0  | D21[ ][ ]D20  /  D1              
+               H0  | D17[ ][ ]D16  /  H1
+               D2  | D19[ ][ ]D18  \  D3
+               D0  | D21[ ][ ]D20  /  D1
     RAM A1 --- A1  | D23[ ][ ]D22  \  A0 --- RAM A0
     RAM A3 --- A3  | D25[ ][ ]D24  /  A2 --- RAM A2
     RAM A5 --- A5  | D27[ ][ ]D26  \  A4 --- RAM A5
@@ -123,8 +123,8 @@ Sample serial output (115200 bps):
                   +----[PWR]-------------------| USB |--+
                   |                            +-----+  |
                   |         GND/RST2  [ ][ ]            |
-                  |       MOSI2/SCK2  [ ][ ]  A5/SCL[ ] |   C5 
-                  |          5V/MISO2 [ ][ ]  A4/SDA[ ] |   C4 
+                  |       MOSI2/SCK2  [ ][ ]  A5/SCL[ ] |   C5
+                  |          5V/MISO2 [ ][ ]  A4/SDA[ ] |   C4
                   |                             AREF[ ] |
                   |                              GND[ ] |
                   | [ ]N/C                    SCK/13[ ] |   B5 --- ROM O8
@@ -158,8 +158,8 @@ Sample serial output (115200 bps):
                   +----[PWR]-------------------| USB |--+
                   |                            +-----+  |
                   |         GND/RST2  [ ][ ]            |
-                  |       MOSI2/SCK2  [ ][ ]  A5/SCL[ ] |   C5 
-                  |          5V/MISO2 [ ][ ]  A4/SDA[ ] |   C4 
+                  |       MOSI2/SCK2  [ ][ ]  A5/SCL[ ] |   C5
+                  |          5V/MISO2 [ ][ ]  A4/SDA[ ] |   C4
                   |                             AREF[ ] |
                   |                              GND[ ] |
                   | [ ]N/C                    SCK/13[ ] |   B5 --- PLA I13
@@ -194,12 +194,12 @@ Also works with a real Arduino Mega, just pay attention to the different pin lay
 This is for 2364 (8 KB) ROMs commonly used for cartridges, BASIC and KERNAL ROMs. See sketch comments for 2332 (4 KB) ROMs.
 
 ```
-                   +---------------     
-                   | VIN[ ][ ]VIN  \                  
-                   | GND[ ][ ]GND  /                  
-                   |  5V[ ][ ]5V   \                  
-                   | 3V3[ ][ ]3V3  /                  
-                   | RST[ ][ ]AREF \                  
+                   +---------------
+                   | VIN[ ][ ]VIN  \
+                   | GND[ ][ ]GND  /
+                   |  5V[ ][ ]5V   \
+                   | 3V3[ ][ ]3V3  /
+                   | RST[ ][ ]AREF \
                E1  |  TX[ ][ ]RX   /  E0
                E5  |  D3[ ][ ]D2   \  E4
                E3  |  D5[ ][ ]D4   /  G5
@@ -208,9 +208,9 @@ This is for 2364 (8 KB) ROMs commonly used for cartridges, BASIC and KERNAL ROMs
                B5  | D11[ ][ ]D10  \  B4
                B7  | D13[ ][ ]D12  /  B6
                J0  | D15[ ][ ]D14  \  J1
-               H0  | D17[ ][ ]D16  /  H1              
-               D2  | D19[ ][ ]D18  \  D3              
-               D0  | D21[ ][ ]D20  /  D1              
+               H0  | D17[ ][ ]D16  /  H1
+               D2  | D19[ ][ ]D18  \  D3
+               D0  | D21[ ][ ]D20  /  D1
     ROM A1 --- A1  | D23[ ][ ]D22  \  A0 --- ROM A0
     ROM A3 --- A3  | D25[ ][ ]D24  /  A2 --- ROM A2
     ROM A5 --- A5  | D27[ ][ ]D26  \  A4 --- ROM A5
@@ -244,7 +244,7 @@ This is for 2364 (8 KB) ROMs commonly used for cartridges, BASIC and KERNAL ROMs
                      ---------------+
 ```
 
-The program will prompt whether you want to drive /CE low or high and then dump the ROM over to the serial port (115.2 Kbps). 
+The program will prompt whether you want to drive /CE low or high and then dump the ROM over to the serial port (115.2 Kbps).
 
 Driving /CE low enables the chip and produces a hex dump you can convert to bin with `xxd -r <dump.txt >dump.bin`:
 
@@ -276,4 +276,3 @@ A valid dump with /CE high means the chip **FAILS** to obey the /CE line.
  * [Commodore 64: how to repair it, step by step](http://retro64.altervista.org/blog/commodore-64-repair-a-quick-guide-on-the-steps-required-to-fix-it/)
  * [Arduino ASCII diagrams](http://busyducks.com/ascii-art-arduinos)
  * ... and Commodore Business Machines for making the BEST COMPUTER EVER
-
